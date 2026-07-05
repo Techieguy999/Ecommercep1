@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="DevTech Fashion — A premium luxury fashion destination for Men, Women & Kids. Discover curated collections crafted with elegance."
+    />
+    <meta name="keywords" content="luxury fashion, premium clothing, men's wear, women's wear, kids wear, DevTech Fashion" />
+    <meta name="author" content="DevTech Solutions" />
+    <meta property="og:title" content="DevTech Fashion — Luxury Redefined" />
+    <meta property="og:description" content="Discover premium fashion collections crafted for the modern connoisseur." />
+    <meta property="og:type" content="website" />
+    <title>DevTech Fashion — Luxury Redefined</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <!-- ========================================
+         NOISE TEXTURE OVERLAY
+    ========================================= -->
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <!-- ========================================
+         AMBIENT LIGHT ORBS
+    ========================================= -->
+    <div class="ambient-container" aria-hidden="true">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ========================================
+         NAVIGATION
+    ========================================= -->
+    <header class="navbar" id="navbar" role="banner">
+      <nav class="nav-container" aria-label="Main Navigation">
+        <!-- Logo -->
+        <a href="index.html" class="nav-logo" aria-label="DevTech Fashion Home">
+          <span class="logo-mark" aria-hidden="true">DT</span>
+          <span class="logo-text">DevTech <em>Fashion</em></span>
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <ul class="nav-links" role="list" id="nav-links">
+          <li><a href="index.html" class="nav-link active" aria-current="page">Home</a></li>
+          <li><a href="pages/shop.html" class="nav-link">Shop</a></li>
+          <li class="nav-dropdown">
+            <a href="#" class="nav-link dropdown-trigger" aria-haspopup="true" aria-expanded="false" id="categories-btn">
+              Categories
+              <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </a>
+            <div class="dropdown-menu glass-panel" role="menu" aria-labelledby="categories-btn">
+              <a href="pages/category.html?cat=men" class="dropdown-item" role="menuitem">
+                <span class="dropdown-icon" aria-hidden="true">♂</span>
+                Men's Wear
+              </a>
+              <a href="pages/category.html?cat=women" class="dropdown-item" role="menuitem">
+                <span class="dropdown-icon" aria-hidden="true">♀</span>
+                Women's Wear
+              </a>
+              <a href="pages/category.html?cat=kids" class="dropdown-item" role="menuitem">
+                <span class="dropdown-icon" aria-hidden="true">★</span>
+                Kids Wear
+              </a>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Nav Actions -->
+        <div class="nav-actions">
+          <a href="pages/wishlist.html" class="nav-icon-btn" aria-label="Wishlist" id="wishlist-nav-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span class="icon-badge" id="wishlist-count" aria-live="polite">0</span>
+          </a>
+          <a href="pages/cart.html" class="nav-icon-btn" aria-label="Shopping Cart" id="cart-nav-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span class="icon-badge" id="cart-count" aria-live="polite">0</span>
+          </a>
+          <a href="pages/login.html" class="btn btn-ghost" id="login-btn">Login</a>
+          <a href="pages/signup.html" class="btn btn-primary" id="signup-btn">Sign Up</a>
+        </div>
+
+        <!-- Mobile Hamburger -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="ham-bar"></span>
+          <span class="ham-bar"></span>
+          <span class="ham-bar"></span>
+        </button>
+      </nav>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-menu glass-panel" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+        <ul class="mobile-links" role="list">
+          <li><a href="index.html" class="mobile-link active" aria-current="page">Home</a></li>
+          <li><a href="pages/shop.html" class="mobile-link">Shop</a></li>
+          <li><a href="pages/category.html?cat=men" class="mobile-link">Men's Wear</a></li>
+          <li><a href="pages/category.html?cat=women" class="mobile-link">Women's Wear</a></li>
+          <li><a href="pages/category.html?cat=kids" class="mobile-link">Kids Wear</a></li>
+          <li class="mobile-divider" aria-hidden="true"></li>
+          <li><a href="pages/wishlist.html" class="mobile-link">Wishlist</a></li>
+          <li><a href="pages/cart.html" class="mobile-link">Cart</a></li>
+          <li class="mobile-actions">
+            <a href="pages/login.html" class="btn btn-ghost btn-full">Login</a>
+            <a href="pages/signup.html" class="btn btn-primary btn-full">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ========================================
+         HERO SECTION
+    ========================================= -->
+    <main id="main-content">
+      <section class="hero" id="hero" aria-label="Hero Banner">
+        <!-- Hero Background -->
+        <div class="hero-bg" aria-hidden="true">
+          <div class="hero-img-wrapper">
+            <img
+              src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&q=90&auto=format&fit=crop"
+              alt="Luxury fashion editorial — elegant women's wear collection"
+              class="hero-img"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+          <div class="hero-gradient-overlay" aria-hidden="true"></div>
+          <div class="hero-glass-overlay" aria-hidden="true"></div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="hero-content container">
+          <!-- Ad Badge -->
+          <div class="hero-badge fade-in-up" data-delay="0">
+            <span class="badge-dot" aria-hidden="true"></span>
+            ✦ New Season Drop — Premium Womenswear &amp; Menswear 2026
+          </div>
+
+          <!-- Headline -->
+          <h1 class="hero-title fade-in-up" data-delay="1">
+            <span class="title-line title-serif">Wear What</span>
+            <span class="title-line title-serif title-italic">Moves You</span>
+          </h1>
+
+          <!-- Subheading -->
+          <p class="hero-subtitle fade-in-up" data-delay="2">
+            From hand-tailored suits to effortless summer dresses — curated fashion for Men, Women &amp; Kids. Up to <strong>40% off</strong> on select styles this season.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="hero-actions fade-in-up" data-delay="3">
+            <a href="pages/shop.html" class="btn btn-primary btn-lg ripple-btn" id="hero-shop-btn">
+              <span>Shop the Collection</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="#categories" class="btn btn-glass btn-lg" id="hero-cat-btn">
+              Browse Styles
+            </a>
+          </div>
+
+          <!-- Stat Pills -->
+          <div class="hero-stats fade-in-up" data-delay="4" aria-label="Store highlights">
+            <div class="stat-pill glass-panel">
+              <span class="stat-number">10K+</span>
+              <span class="stat-label">Premium Products</span>
+            </div>
+            <div class="stat-pill glass-panel">
+              <span class="stat-number">50K+</span>
+              <span class="stat-label">Happy Customers</span>
+            </div>
+            <div class="stat-pill glass-panel">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Authentic Luxury</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" aria-hidden="true">
+          <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+          </div>
+          <span>Scroll to explore</span>
+        </div>
+      </section>
+
+      <!-- ========================================
+           ANNOUNCEMENT BAR
+      ========================================= -->
+      <div class="announcement-bar" id="announcement-bar" role="marquee" aria-label="Announcements">
+        <div class="announcement-track">
+          <span class="announcement-item">✦ Free Shipping on orders over ₹5,000</span>
+          <span class="announcement-item">✦ New Summer 2026 Collection is Live</span>
+          <span class="announcement-item">✦ Exclusive Members get 20% off first order</span>
+          <span class="announcement-item">✦ 30-Day Easy Returns &amp; Exchanges</span>
+          <span class="announcement-item">✦ Free Shipping on orders over ₹5,000</span>
+          <span class="announcement-item">✦ New Summer 2026 Collection is Live</span>
+          <span class="announcement-item">✦ Exclusive Members get 20% off first order</span>
+          <span class="announcement-item">✦ 30-Day Easy Returns &amp; Exchanges</span>
+        </div>
+      </div>
+
+      <!-- ========================================
+           CATEGORY COLLECTIONS SECTION
+      ========================================= -->
+      <section class="categories-section" id="categories" aria-label="Shop by Category">
+        <div class="container">
+
+          <!-- Section Header -->
+          <div class="section-header">
+            <div class="section-eyebrow">Collections</div>
+            <h2 class="section-title">Shop by Category</h2>
+            <p class="section-subtitle">Explore our curated fashion for every member of the family</p>
+          </div>
+
+          <!-- Editorial Category Grid — side by side desktop, stacked mobile -->
+          <div class="cat-grid" role="list">
+
+            <!-- ── Men's Wear ── -->
+            <article class="cat-card" role="listitem" id="mens-card">
+              <a href="pages/category.html?cat=men" class="cat-link" aria-label="Go to Men's Wear">
+
+                <!-- Full photo -->
+                <div class="cat-photo-wrap">
+                  <img
+                    src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=700&q=85&auto=format&fit=crop&crop=top"
+                    alt="Men's luxury fashion — tailored suits and premium casuals"
+                    class="cat-photo"
+                    loading="lazy"
+                  />
+                  <!-- Gradient overlay -->
+                  <div class="cat-overlay" aria-hidden="true"></div>
+
+                  <!-- Top badge -->
+                  <span class="cat-badge" aria-hidden="true">New In</span>
+
+                  <!-- Bottom content -->
+                  <div class="cat-content">
+                    <p class="cat-eyebrow">Men's Wear</p>
+                    <h3 class="cat-title">Crafted for the<br>Modern Man</h3>
+                    <p class="cat-meta">240+ Premium Styles</p>
+                    <span class="cat-cta-btn">
+                      Go to Men's Wear
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                  </div>
+                </div>
+
+              </a>
+            </article>
+
+            <!-- ── Women's Wear ── -->
+            <article class="cat-card cat-card--featured" role="listitem" id="womens-card">
+              <a href="pages/category.html?cat=women" class="cat-link" aria-label="Go to Women's Wear">
+
+                <div class="cat-photo-wrap">
+                  <img
+                    src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=700&q=85&auto=format&fit=crop&crop=top"
+                    alt="Women's luxury fashion — elegant dresses and premium womenswear"
+                    class="cat-photo"
+                    loading="lazy"
+                  />
+                  <div class="cat-overlay" aria-hidden="true"></div>
+                  <span class="cat-badge cat-badge--gold" aria-hidden="true">★ Featured</span>
+
+                  <div class="cat-content">
+                    <p class="cat-eyebrow">Women's Wear</p>
+                    <h3 class="cat-title">Timeless Grace,<br>Modern Edge</h3>
+                    <p class="cat-meta">380+ Premium Styles</p>
+                    <span class="cat-cta-btn">
+                      Go to Women's Wear
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                  </div>
+                </div>
+
+              </a>
+            </article>
+
+            <!-- ── Kids Wear ── -->
+            <article class="cat-card" role="listitem" id="kids-card">
+              <a href="pages/category.html?cat=kids" class="cat-link" aria-label="Go to Kids' Wear">
+
+                <div class="cat-photo-wrap">
+                  <img
+                    src="https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=700&q=85&auto=format&fit=crop&crop=faces,center"
+                    alt="Kids' fashion — playful and stylish children's clothing"
+                    class="cat-photo cat-photo--kids"
+                    loading="lazy"
+                  />
+                  <div class="cat-overlay" aria-hidden="true"></div>
+                  <span class="cat-badge" aria-hidden="true">Trending</span>
+
+                  <div class="cat-content">
+                    <p class="cat-eyebrow">Kids' Wear</p>
+                    <h3 class="cat-title">Little Styles,<br>Big Dreams</h3>
+                    <p class="cat-meta">160+ Premium Styles</p>
+                    <span class="cat-cta-btn">
+                      Go to Kids' Wear
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                  </div>
+                </div>
+
+              </a>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           FEATURED EDITORIAL SECTION
+      ========================================= -->
+      <section class="editorial-section" aria-label="Featured Editorial">
+        <div class="editorial-grid">
+          <!-- Large Editorial Block -->
+          <div class="editorial-main" id="editorial-main">
+            <img
+              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&q=85&auto=format&fit=crop"
+              alt="Editorial fashion lookbook spread"
+              class="editorial-img"
+              loading="lazy"
+            />
+            <div class="editorial-overlay glass-overlay" aria-hidden="true"></div>
+            <div class="editorial-content">
+              <span class="editorial-tag">Editorial</span>
+              <h2 class="editorial-title">The Summer<br />Lookbook 2026</h2>
+              <p class="editorial-desc">Where luxury meets the season's finest light.</p>
+              <a href="pages/shop.html" class="btn btn-glass btn-sm" id="editorial-btn">View Lookbook</a>
+            </div>
+          </div>
+
+          <!-- Side Stacked Blocks -->
+          <div class="editorial-side">
+            <div class="editorial-small" id="editorial-small-1">
+              <img
+                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&q=85&auto=format&fit=crop"
+                alt="Premium accessories collection"
+                class="editorial-img"
+                loading="lazy"
+              />
+              <div class="editorial-overlay glass-overlay" aria-hidden="true"></div>
+              <div class="editorial-content editorial-content-sm">
+                <span class="editorial-tag">Accessories</span>
+                <h3 class="editorial-title-sm">The Detail<br />Collection</h3>
+                <a href="pages/shop.html" class="btn btn-glass btn-xs" id="editorial-acc-btn">Discover</a>
+              </div>
+            </div>
+            <div class="editorial-small" id="editorial-small-2">
+              <img
+                src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=500&q=85&auto=format&fit=crop"
+                alt="Luxury lifestyle fashion"
+                class="editorial-img"
+                loading="lazy"
+              />
+              <div class="editorial-overlay glass-overlay" aria-hidden="true"></div>
+              <div class="editorial-content editorial-content-sm">
+                <span class="editorial-tag">Lifestyle</span>
+                <h3 class="editorial-title-sm">Dressed for<br />Every Moment</h3>
+                <a href="pages/shop.html" class="btn btn-glass btn-xs" id="editorial-life-btn">Explore</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           WHY CHOOSE US
+      ========================================= -->
+      <section class="why-section" id="why-us" aria-label="Why Choose DevTech Fashion">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-eyebrow">Our Promise</div>
+            <h2 class="section-title">Why Choose Us</h2>
+            <p class="section-subtitle">We don't just sell fashion — we deliver an experience</p>
+          </div>
+
+          <div class="why-bento">
+
+            <!-- Feature 1: Premium Quality -->
+            <div class="bento-card bento-large glass-card" id="bento-quality">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <div class="bento-content">
+                <h3 class="bento-title">Uncompromising Quality</h3>
+                <p class="bento-desc">Every piece passes through our 12-point luxury quality assurance process. Only the finest fabrics and craftsmanship make the cut.</p>
+              </div>
+              <div class="bento-visual" aria-hidden="true">
+                <div class="bento-glow bento-glow-blue"></div>
+              </div>
+            </div>
+
+            <!-- Feature 2: Fast Delivery -->
+            <div class="bento-card glass-card" id="bento-delivery">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              </div>
+              <div class="bento-content">
+                <h3 class="bento-title">Express Delivery</h3>
+                <p class="bento-desc">Delivered to your door within 48 hours, nationwide.</p>
+              </div>
+              <div class="bento-visual" aria-hidden="true">
+                <div class="bento-glow bento-glow-purple"></div>
+              </div>
+            </div>
+
+            <!-- Feature 3: Easy Returns -->
+            <div class="bento-card glass-card" id="bento-returns">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+              </div>
+              <div class="bento-content">
+                <h3 class="bento-title">30-Day Returns</h3>
+                <p class="bento-desc">No questions asked. Easy returns and exchanges within 30 days.</p>
+              </div>
+              <div class="bento-visual" aria-hidden="true">
+                <div class="bento-glow bento-glow-gold"></div>
+              </div>
+            </div>
+
+            <!-- Feature 4: Exclusive -->
+            <div class="bento-card glass-card" id="bento-exclusive">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="bento-content">
+                <h3 class="bento-title">Exclusive Collections</h3>
+                <p class="bento-desc">Limited edition drops you won't find anywhere else.</p>
+              </div>
+              <div class="bento-visual" aria-hidden="true">
+                <div class="bento-glow bento-glow-cyan"></div>
+              </div>
+            </div>
+
+            <!-- Feature 5: Secure Payment -->
+            <div class="bento-card glass-card" id="bento-secure">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              </div>
+              <div class="bento-content">
+                <h3 class="bento-title">Secure Payments</h3>
+                <p class="bento-desc">Bank-grade SSL encryption on every transaction.</p>
+              </div>
+              <div class="bento-visual" aria-hidden="true">
+                <div class="bento-glow bento-glow-blue"></div>
+              </div>
+            </div>
+
+            <!-- Feature 6: 24/7 Support -->
+            <div class="bento-card bento-medium glass-card" id="bento-support">
+              <div class="bento-icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="bento-content">
+                <h3 class="bento-title">24/7 Concierge Support</h3>
+                <p class="bento-desc">Our luxury support team is always available to assist you. Chat, email, or call — we're here around the clock.</p>
+              </div>
+              <div class="bento-visual" aria-hidden="true">
+                <div class="bento-glow bento-glow-purple"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           NEWSLETTER SECTION
+      ========================================= -->
+      <section class="newsletter-section" id="newsletter" aria-label="Newsletter Signup">
+        <div class="container">
+          <div class="newsletter-glass glass-panel">
+            <div class="newsletter-orb" aria-hidden="true"></div>
+            <div class="newsletter-content">
+              <div class="section-eyebrow">Stay in Style</div>
+              <h2 class="newsletter-title">Join the Inner Circle</h2>
+              <p class="newsletter-desc">Be first to know about new arrivals, exclusive drops, and members-only offers.</p>
+              <form class="newsletter-form" id="newsletter-form" novalidate aria-label="Newsletter subscription form">
+                <div class="form-group">
+                  <input
+                    type="email"
+                    id="newsletter-email"
+                    name="email"
+                    class="form-input glass-input"
+                    placeholder="Enter your email address"
+                    autocomplete="email"
+                    aria-label="Email address"
+                    aria-required="true"
+                    required
+                  />
+                  <button type="submit" class="btn btn-primary ripple-btn" id="newsletter-submit">
+                    Subscribe
+                  </button>
+                </div>
+                <p class="form-note">By subscribing, you agree to our Privacy Policy. Unsubscribe anytime.</p>
+                <div class="form-message" id="newsletter-msg" role="alert" aria-live="polite"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ========================================
+         FOOTER
+    ========================================= -->
+    <footer class="footer" id="footer" role="contentinfo">
+      <div class="footer-top">
+        <div class="container">
+          <div class="footer-grid">
+
+            <!-- Brand Column -->
+            <div class="footer-col footer-brand">
+              <a href="index.html" class="nav-logo footer-logo" aria-label="DevTech Fashion Home">
+                <span class="logo-mark" aria-hidden="true">DT</span>
+                <span class="logo-text">DevTech <em>Fashion</em></span>
+              </a>
+              <p class="footer-tagline">Luxury fashion, thoughtfully curated for the modern connoisseur.</p>
+              <div class="social-links" aria-label="Social Media Links">
+                <a href="#" class="social-btn" aria-label="Follow us on Instagram" id="social-instagram">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="#" class="social-btn" aria-label="Follow us on Twitter/X" id="social-twitter">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                </a>
+                <a href="#" class="social-btn" aria-label="Follow us on Facebook" id="social-facebook">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+                <a href="#" class="social-btn" aria-label="Watch us on YouTube" id="social-youtube">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+              <h4 class="footer-heading">Quick Links</h4>
+              <ul class="footer-links" role="list">
+                <li><a href="index.html" class="footer-link">Home</a></li>
+                <li><a href="pages/shop.html" class="footer-link">Shop All</a></li>
+                <li><a href="pages/category.html?cat=men" class="footer-link">Men's Wear</a></li>
+                <li><a href="pages/category.html?cat=women" class="footer-link">Women's Wear</a></li>
+                <li><a href="pages/category.html?cat=kids" class="footer-link">Kids Wear</a></li>
+              </ul>
+            </div>
+
+            <!-- Help -->
+            <div class="footer-col">
+              <h4 class="footer-heading">Help & Support</h4>
+              <ul class="footer-links" role="list">
+                <li><a href="#" class="footer-link">Shipping Policy</a></li>
+                <li><a href="#" class="footer-link">Returns & Exchanges</a></li>
+                <li><a href="#" class="footer-link">Size Guide</a></li>
+                <li><a href="#" class="footer-link">Track My Order</a></li>
+                <li><a href="#" class="footer-link">Contact Us</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact & Location -->
+            <div class="footer-col">
+              <h4 class="footer-heading">Visit Us</h4>
+              <address class="footer-address">
+                <div class="address-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span>DevTech Plaza, MG Road,<br />Hyderabad, Telangana 500001</span>
+                </div>
+                <div class="address-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span>+91 98765 43210</span>
+                </div>
+                <div class="address-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <span>hello@devtechfashion.com</span>
+                </div>
+              </address>
+
+              <!-- Map Embed Placeholder -->
+              <div class="map-embed" id="map-embed" aria-label="Store location on map">
+                <iframe
+                  title="DevTech Fashion Store Location"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30452.61870636977!2d78.45659465!3d17.4126453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99b7c5cbe3d9%3A0xa79c12a9f5d46b31!2sMG%20Rd%2C%20Hyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1720100000000!5m2!1sen!2sin"
+                  width="100%"
+                  height="160"
+                  style="border:0;"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div class="container">
+          <div class="footer-bottom-content">
+            <p class="footer-copy">&copy; <span id="footer-year"></span> DevTech Solutions. All rights reserved.</p>
+            <div class="footer-legal">
+              <a href="#" class="footer-legal-link">Privacy Policy</a>
+              <a href="#" class="footer-legal-link">Terms of Service</a>
+              <a href="#" class="footer-legal-link">Cookie Settings</a>
+            </div>
+            <p class="footer-made">Crafted with ♥ by <strong>Purna Sai &amp; Prabhas</strong></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Mouse Glow Effect -->
+    <div class="mouse-glow" id="mouse-glow" aria-hidden="true"></div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,544 @@
+/* ============================================================
+   DEVTECH FASHION — RESPONSIVE STYLESHEET
+   Author: DevTech Solutions (Purna Sai & Prabhas)
+   Version: 1.0.0
+   Breakpoints:
+     XL Desktop  : > 1280px
+     Desktop      : <= 1280px
+     Laptop       : <= 1024px
+     Tablet       : <= 768px
+     Mobile Large : <= 600px
+     Mobile Small : <= 400px
+   ============================================================ */
+
+/* ============================================================
+   LARGE DESKTOP (1280px+) — default, no overrides needed
+   ============================================================ */
+
+/* ============================================================
+   DESKTOP (max-width: 1280px)
+   ============================================================ */
+@media (max-width: 1280px) {
+  :root {
+    --container-pad: clamp(16px, 4vw, 48px);
+  }
+
+  .footer-grid {
+    grid-template-columns: 1.8fr 1fr 1fr 1.5fr;
+    gap: var(--space-10);
+  }
+}
+
+/* ============================================================
+   LAPTOP (max-width: 1024px)
+   ============================================================ */
+@media (max-width: 1024px) {
+  :root {
+    --container-pad: clamp(16px, 5vw, 40px);
+    --nav-side-offset: 16px;       /* tighter pill on laptop */
+  }
+
+  /* Navbar */
+  .nav-links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-actions .btn-ghost,
+  .nav-actions .btn-primary {
+    display: none;
+  }
+
+  /* Hero */
+  .hero-content {
+    max-width: 100%;
+  }
+
+  /* Category grid — 3 col stays on laptop */
+  .cat-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  /* Editorial */
+  .editorial-grid {
+    height: 560px;
+  }
+
+  /* Bento */
+  .why-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bento-large,
+  .bento-medium {
+    grid-column: span 2;
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-10);
+  }
+
+  .footer-bottom-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+}
+
+/* ============================================================
+   TABLET (max-width: 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 68px;
+    --container-pad: clamp(16px, 5vw, 32px);
+  }
+
+  /* ============================================================
+     MOBILE NAVBAR LAYOUT
+     Hamburger (left) | Logo (center) | Icons + Login (right)
+  ============================================================ */
+
+  /* Make nav-container a 3-zone flex row */
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+    padding: 0 var(--space-4);
+  }
+
+  /* 1. Hamburger — far left */
+  .hamburger {
+    display: flex;
+    order: 1;
+    flex-shrink: 0;
+  }
+
+  /* 2. Logo — center (takes remaining space, centered with auto margins) */
+  .nav-logo {
+    order: 2;
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* 3. Nav links — hidden on mobile */
+  .nav-links {
+    display: none;
+    order: 99;
+  }
+
+  /* 4. Nav actions — far right */
+  .nav-actions {
+    order: 3;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  /* Show wishlist + cart icons always on mobile */
+  .nav-icon-btn {
+    display: flex;
+  }
+
+  /* Show Login button on mobile as compact ghost pill */
+  .nav-actions .btn-ghost {
+    display: inline-flex;
+    font-size: 0.8125rem;
+    padding: 0.45em 1em;
+    white-space: nowrap;
+  }
+
+  /* Hide Sign Up button — it's inside mobile menu */
+  .nav-actions .btn-primary {
+    display: none;
+  }
+
+  /* Logo text size */
+  .logo-text {
+    font-size: 0.9375rem;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100svh;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-stats {
+    gap: var(--space-3);
+  }
+
+  .stat-pill {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  /* Category grid — 2 columns on tablet, kids full width */
+  .cat-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  /* Kids card spans both columns on tablet */
+  #kids-card {
+    grid-column: span 2;
+  }
+
+  #kids-card .cat-photo-wrap {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Editorial */
+  .editorial-section {
+    padding: 0 var(--container-pad);
+    margin-bottom: var(--space-20);
+  }
+
+  .editorial-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: var(--space-4);
+  }
+
+  .editorial-main {
+    height: 420px;
+  }
+
+  .editorial-small {
+    height: 280px;
+  }
+
+  .editorial-side {
+    gap: var(--space-4);
+  }
+
+  /* Bento */
+  .why-bento {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-large,
+  .bento-medium {
+    grid-column: span 1;
+    flex-direction: column;
+  }
+
+  /* Newsletter */
+  .newsletter-glass {
+    padding: var(--space-12) var(--space-8);
+  }
+
+  .form-group {
+    flex-direction: column;
+  }
+
+  .form-input,
+  .form-group .btn {
+    width: 100%;
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .footer-brand {
+    grid-column: span 2;
+  }
+
+  /* Footer bottom */
+  .footer-bottom-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-4);
+  }
+
+  .footer-legal {
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* ============================================================
+   MOBILE LARGE (max-width: 600px)
+   ============================================================ */
+@media (max-width: 600px) {
+  :root {
+    --container-pad: 16px;
+    --space-32: 80px;
+    --space-24: 60px;
+    --space-20: 48px;
+    --space-16: 40px;
+  }
+
+  /* Navbar — keep logo-text visible on 600px but smaller */
+  .nav-logo .logo-text {
+    font-size: 0.875rem;
+  }
+
+  /* Tighten icon buttons */
+  .nav-icon-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* Compact login button */
+  .nav-actions .btn-ghost {
+    font-size: 0.75rem;
+    padding: 0.4em 0.85em;
+  }
+
+  /* Hero */
+  .hero-badge {
+    font-size: 0.6875rem;
+  }
+
+  .hero-stats {
+    flex-wrap: wrap;
+  }
+
+  .stat-pill {
+    min-width: calc(50% - var(--space-2));
+  }
+
+  /* Categories — 1 column stacked on mobile */
+  .cat-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  /* Reset kids card span */
+  #kids-card {
+    grid-column: span 1;
+  }
+
+  /* All cards: portrait aspect on mobile */
+  .cat-photo-wrap,
+  .cat-card--featured .cat-photo-wrap,
+  #kids-card .cat-photo-wrap {
+    aspect-ratio: 4 / 5;
+  }
+
+  /* Tighten content padding */
+  .cat-content {
+    padding: var(--space-6) var(--space-5);
+  }
+
+  .cat-title {
+    font-size: 1.5rem;
+  }
+
+  /* Editorial */
+  .editorial-main {
+    height: 320px;
+  }
+
+  .editorial-small {
+    height: 220px;
+  }
+
+  .editorial-content {
+    padding: var(--space-6);
+  }
+
+  .editorial-content-sm {
+    padding: var(--space-4);
+  }
+
+  /* Newsletter */
+  .newsletter-glass {
+    padding: var(--space-10) var(--space-5);
+    border-radius: var(--radius-xl);
+  }
+
+  /* Why section */
+  .bento-card {
+    padding: var(--space-6);
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-brand {
+    grid-column: span 1;
+  }
+
+  .map-embed {
+    display: none;
+  }
+
+  /* Back to top */
+  .back-to-top {
+    bottom: var(--space-5);
+    right: var(--space-5);
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Section headers */
+  .section-eyebrow::before,
+  .section-eyebrow::after {
+    display: none;
+  }
+}
+
+/* ============================================================
+   MOBILE SMALL (max-width: 400px)
+   ============================================================ */
+@media (max-width: 400px) {
+  :root {
+    --container-pad: 14px;
+  }
+
+  /* Navbar — hide logo text on very small screens */
+  .nav-logo .logo-text {
+    display: none;
+  }
+
+  /* Keep only the DT mark centered */
+  .nav-logo .logo-mark {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8rem;
+  }
+
+  /* Hide login button text — very tight space */
+  .nav-actions .btn-ghost {
+    font-size: 0;          /* hides text */
+    padding: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid rgba(13,13,20,0.25);
+    background: transparent;
+    position: relative;
+    overflow: visible;
+  }
+
+  /* Show a person icon via pseudo element instead of text */
+  .nav-actions .btn-ghost::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230d0d14' stroke-width='2'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .hero-actions .btn-lg {
+    font-size: 0.9375rem;
+    padding: 0.75em 1.75em;
+  }
+
+  .hero-stats {
+    gap: var(--space-2);
+  }
+
+  .stat-pill {
+    flex: 1;
+    min-width: 100%;
+  }
+
+  .footer-legal {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+}
+
+/* ============================================================
+   TOUCH DEVICE OVERRIDES
+   ============================================================ */
+@media (hover: none) {
+  /* Disable hover transforms on touch */
+  .glass-card:hover {
+    transform: none;
+    box-shadow: var(--shadow-md);
+  }
+
+  .category-card:hover .card-img {
+    transform: none;
+  }
+
+  .btn:hover {
+    transform: none;
+  }
+
+  .social-btn:hover {
+    transform: none;
+  }
+
+  .footer-link:hover {
+    transform: none;
+  }
+
+  /* Show dropdown on tap via JS */
+  .dropdown-menu {
+    display: none;
+  }
+
+  .dropdown-menu.open {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+  .navbar,
+  .mobile-menu,
+  .announcement-bar,
+  .newsletter-section,
+  .back-to-top,
+  .mouse-glow,
+  .orb,
+  .noise-overlay {
+    display: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 2cm 0;
+  }
+
+  .hero-img {
+    display: none;
+  }
+
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+}
