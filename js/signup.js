@@ -1,0 +1,561 @@
+/* ============================================================
+   DEVTECH FASHION — SIGNUP JAVASCRIPT (Nike-Style Multi-Step)
+   Author: DevTech Solutions (Purna Sai & Prabhas)
+   Version: 1.0.0
+   ============================================================ */
+
+'use strict';
+
+// ============================================================
+// REAL-TIME OTP API CONFIGURATION
+// ============================================================
+const OTP_CONFIG = {
+  // === EMAIL OTP (via EmailJS) ===
+  emailjs: {
+    enabled: true,
+    publicKey: 'd65JAiVI2nOP-tSjB',
+    serviceId: 'service_bsuum3h',
+    templateId: 'template_mzxvnz9',
+  },
+  
+  // === WHATSAPP OTP (via CallMeBot) ===
+  // Get a free API key at https://www.callmebot.com/blog/free-api-whatsapp-messages/
+  callmebot: {
+    enabled: false,
+    apiKey: 'YOUR_CALLMEBOT_API_KEY',
+  }
+};
+
+// Global variables for OTP verification
+let generatedPhoneOtp = '';
+let generatedEmailOtp = '';
+
+document.addEventListener('DOMContentLoaded', () => {
+  // --- Navigation & Steps ---
+  const stepContainers = document.querySelectorAll('.signup-step-container');
+  const progressFill   = document.getElementById('progress-fill');
+  const stepNodes      = document.querySelectorAll('.step-node');
+
+  // --- Step 1 Elements ---
+  const phoneForm     = document.getElementById('phone-form');
+  const phoneInput    = document.getElementById('phone-number');
+  const phoneError    = document.getElementById('phone-error');
+  const countryCode   = document.getElementById('country-code');
+  const displayPhone  = document.getElementById('display-phone');
+
+  // --- Step 2 Elements ---
+  const otpForm       = document.getElementById('otp-form');
+  const otpGroup      = document.getElementById('otp-inputs-group');
+  const otpFields     = otpGroup.querySelectorAll('.otp-field');
+  const otpError      = document.getElementById('otp-error');
+  const otpTimerSec   = document.getElementById('otp-timer-seconds');
+  const resendBtn     = document.getElementById('resend-code-btn');
+  const backBtn       = document.getElementById('back-to-step-1-btn');
+
+  // --- Step 3 Elements ---
+  const detailsForm   = document.getElementById('details-form');
+  const firstNameInput= document.getElementById('first-name');
+  const lastNameInput = document.getElementById('last-name');
+  const dobInput      = document.getElementById('date-of-birth');
+  const emailInput    = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const termsCheckbox = document.getElementById('terms-acceptance');
+  
+  const firstNameErr  = document.getElementById('first-name-error');
+  const lastNameErr   = document.getElementById('last-name-error');
+  const dobErr        = document.getElementById('dob-error');
+  const emailErr      = document.getElementById('email-error');
+  const passwordErr   = document.getElementById('password-error');
+  const termsErr       = document.getElementById('terms-error');
+  
+  const passwordToggle = document.getElementById('password-toggle');
+  const eyeOffIcon     = passwordToggle.querySelector('.eye-off');
+  const eyeOnIcon      = passwordToggle.querySelector('.eye-on');
+
+  let currentStep = 1;
+  let timerInterval = null;
+  let verifiedPhoneNumber = '';
+
+  // Set current year in footer
+  const footerYear = document.getElementById('footer-year');
+  if (footerYear) {
+    footerYear.textContent = new Date().getFullYear();
+  }
+
+  // ============================================================
+  // STEP NAVIGATION LOGIC
+  // ============================================================
+  function goToStep(stepNum) {
+    currentStep = stepNum;
+
+    // Update Progress Bar Fill Width
+    const percentages = { 1: '0%', 2: '50%', 3: '100%' };
+    progressFill.style.width = percentages[stepNum];
+
+    // Update Step Nodes Styling
+    stepNodes.forEach((node, idx) => {
+      const nodeStep = idx + 1;
+      if (nodeStep < stepNum) {
+        node.className = 'step-node completed';
+        node.innerHTML = '✓';
+      } else if (nodeStep === stepNum) {
+        node.className = 'step-node active';
+        node.innerHTML = nodeStep;
+      } else {
+        node.className = 'step-node';
+        node.innerHTML = nodeStep;
+      }
+    });
+
+    // Toggle Steps Containers with Smooth Fade-in
+    stepContainers.forEach(container => {
+      container.classList.remove('active');
+    });
+    
+    const targetContainer = document.getElementById(`signup-step-${stepNum}`);
+    if (targetContainer) {
+      targetContainer.classList.add('active');
+      
+      // Auto focus primary inputs
+      if (stepNum === 1) phoneInput.focus();
+      if (stepNum === 2) otpFields[0].focus();
+      if (stepNum === 3) firstNameInput.focus();
+    }
+  }
+
+  // ============================================================
+  // STEP 1: PHONE FORM VALIDATION & SUBMIT
+  // ============================================================
+  phoneInput.addEventListener('input', () => {
+    // strip non-numeric
+    phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '');
+    if (phoneInput.classList.contains('input-error')) {
+      clearError(phoneInput, phoneError);
+    }
+  });
+
+  phoneForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const phoneVal = phoneInput.value.trim();
+
+    if (!phoneVal) {
+      showError(phoneInput, phoneError, 'Mobile number is required.');
+      return;
+    }
+
+    if (phoneVal.length < 10) {
+      showError(phoneInput, phoneError, 'Please enter a valid 10-digit mobile number.');
+      return;
+    }
+
+    // Success Step 1
+    verifiedPhoneNumber = `${countryCode.value}${phoneVal}`;
+    displayPhone.textContent = `${countryCode.value} ${phoneVal}`;
+
+    const phoneSubmitBtn = document.getElementById('phone-submit-btn');
+    const submitSpan = phoneSubmitBtn.querySelector('span');
+    phoneSubmitBtn.disabled = true;
+    if (submitSpan) submitSpan.textContent = 'Sending OTP...';
+
+    // Generate 6-digit random code
+    generatedPhoneOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Call WhatsApp API (CallMeBot) if enabled
+    if (OTP_CONFIG.callmebot.enabled) {
+      const whatsappMsg = `DevTech verification code is: ${generatedPhoneOtp}`;
+      const url = `https://api.callmebot.com/whatsapp.php?phone=${verifiedPhoneNumber}&text=${encodeURIComponent(whatsappMsg)}&apikey=${OTP_CONFIG.callmebot.apiKey}`;
+      
+      fetch(url)
+        .then(response => {
+          console.log('WhatsApp OTP request sent via CallMeBot.');
+        })
+        .catch(err => {
+          console.error('CallMeBot Error:', err);
+        });
+    }
+
+    // Always log code to terminal/console and show alert fallback for testing
+    console.log(`[DevTech] WhatsApp OTP sent: ${generatedPhoneOtp}`);
+    
+    setTimeout(() => {
+      phoneSubmitBtn.disabled = false;
+      if (submitSpan) submitSpan.textContent = 'Send OTP Code';
+      
+      // Alert fallback if API is not active yet so developer can see the code easily
+      if (!OTP_CONFIG.callmebot.enabled) {
+        alert(`⚡ [Demo Mode] OTP sent to WhatsApp: ${generatedPhoneOtp}\n(To receive real messages, set 'callmebot.enabled' to true in signup.js)`);
+      }
+      
+      goToStep(2);
+      startOTPTimer();
+    }, 1200);
+  });
+
+  // ============================================================
+  // STEP 2: OTP FIELD DYNAMICS, TIMER & VERIFY
+  // ============================================================
+  
+  // Shift Focus Auto on keypress
+  otpFields.forEach((field, index) => {
+    field.addEventListener('input', (e) => {
+      // Allow only numbers
+      field.value = field.value.replace(/[^0-9]/g, '');
+      
+      if (field.value.length === 1) {
+        if (index < otpFields.length - 1) {
+          otpFields[index + 1].focus();
+        }
+      }
+      clearError(otpFields[0], otpError); // clear error on any edit
+    });
+
+    field.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && field.value.length === 0) {
+        if (index > 0) {
+          otpFields[index - 1].focus();
+        }
+      }
+    });
+  });
+
+  // OTP Countdown Timer
+  function startOTPTimer() {
+    clearInterval(timerInterval);
+    resendBtn.disabled = true;
+    resendBtn.classList.add('disabled');
+    
+    let secondsLeft = 59;
+    otpTimerSec.textContent = secondsLeft;
+
+    timerInterval = setInterval(() => {
+      secondsLeft--;
+      otpTimerSec.textContent = secondsLeft;
+
+      if (secondsLeft <= 0) {
+        clearInterval(timerInterval);
+        resendBtn.disabled = false;
+        resendBtn.classList.remove('disabled');
+      }
+    }, 1000);
+  }
+
+  // Resend Button Click
+  resendBtn.addEventListener('click', () => {
+    if (resendBtn.disabled) return;
+    
+    // reset fields
+    otpFields.forEach(f => f.value = '');
+    clearError(otpFields[0], otpError);
+
+    // simulate sending
+    resendBtn.disabled = true;
+    resendBtn.textContent = 'Sending...';
+
+    setTimeout(() => {
+      resendBtn.textContent = 'Resend Code';
+      startOTPTimer();
+    }, 1000);
+  });
+
+  // Step 2 Back navigation
+  backBtn.addEventListener('click', () => {
+    clearInterval(timerInterval);
+    goToStep(1);
+  });
+
+  // OTP Verification Submit
+  otpForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let code = '';
+    otpFields.forEach(f => code += f.value);
+
+    if (code.length < 6) {
+      showError(otpFields[0], otpError, 'Please enter all 6 digits of the verification code.');
+      otpFields.forEach(f => f.classList.add('input-error'));
+      return;
+    }
+
+    // WhatsApp OTP is bypassed/compromised — any 6-digit code is accepted
+    // (This allows easy testing without waiting for real WhatsApp keys)
+
+    // Success Step 2
+    const otpSubmitBtn = document.getElementById('otp-submit-btn');
+    const submitSpan = otpSubmitBtn.querySelector('span');
+    otpSubmitBtn.disabled = true;
+    if (submitSpan) submitSpan.textContent = 'Verifying code...';
+
+    setTimeout(() => {
+      otpSubmitBtn.disabled = false;
+      if (submitSpan) submitSpan.textContent = 'Verify OTP';
+
+      // Clear field errors
+      otpFields.forEach(f => f.classList.remove('input-error'));
+
+      clearInterval(timerInterval);
+      goToStep(3);
+    }, 1000);
+  });
+
+
+  // ============================================================
+  // STEP 3: ACCOUNT DETAILS VALIDATION & SUBMIT
+  // ============================================================
+
+  const emailVerifyTrigger = document.getElementById('email-verify-trigger');
+  const emailOtpBlock      = document.getElementById('email-otp-block');
+  const emailOtpInput      = document.getElementById('email-otp-input');
+  const emailOtpSubmit     = document.getElementById('email-otp-submit');
+  const emailOtpError      = document.getElementById('email-otp-error');
+  
+  let isEmailVerified = false;
+  let isPasswordStrong = false;
+
+  // Email verification trigger
+  if (emailVerifyTrigger) {
+    emailVerifyTrigger.addEventListener('click', () => {
+      const emailVal = emailInput.value.trim();
+      if (!emailVal) {
+        showError(emailInput, emailErr, 'Email address is required.');
+        return;
+      }
+      if (!validateEmail(emailVal)) {
+        showError(emailInput, emailErr, 'Please enter a valid email address.');
+        return;
+      }
+
+      // Clear error, show progress
+      clearError(emailInput, emailErr);
+      emailVerifyTrigger.disabled = true;
+      emailVerifyTrigger.textContent = 'Sending...';
+
+      // Generate 6-digit random code
+      generatedEmailOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // Call EmailJS if enabled
+      if (OTP_CONFIG.emailjs.enabled) {
+        if (typeof emailjs !== 'undefined') {
+          console.log('Initiating EmailJS OTP transmission...');
+          emailjs.send(OTP_CONFIG.emailjs.serviceId, OTP_CONFIG.emailjs.templateId, {
+            to_email: emailVal,
+            otp_code: generatedEmailOtp,
+            to_name: 'DevTech Member'
+          })
+          .then((response) => {
+            console.log('Email OTP sent successfully via EmailJS! Response status:', response.status, response.text);
+          })
+          .catch((err) => {
+            console.error('EmailJS Error details:', err);
+            alert(`⚠️ EmailJS Send Error: ${err.text || err.message || JSON.stringify(err)}\n\nPlease ensure your Service ID and Template ID are correct.`);
+          });
+        } else {
+          console.error('EmailJS library is not defined on the window object.');
+          alert('⚠️ EmailJS library failed to load. Please check your internet connection and refresh the page.');
+        }
+      }
+
+      console.log(`[DevTech] Email OTP sent: ${generatedEmailOtp}`);
+
+      setTimeout(() => {
+        emailOtpBlock.style.display = 'block';
+        emailVerifyTrigger.textContent = 'Verify';
+        emailVerifyTrigger.disabled = false;
+        emailOtpInput.focus();
+
+        if (!OTP_CONFIG.emailjs.enabled) {
+          alert(`⚡ [Demo Mode] OTP sent to Email: ${generatedEmailOtp}\n(To receive real emails, configure your EmailJS credentials in signup.js)`);
+        }
+      }, 1000);
+    });
+  }
+
+  // Email OTP confirmation code submit
+  if (emailOtpSubmit) {
+    emailOtpSubmit.addEventListener('click', () => {
+      const otpVal = emailOtpInput.value.trim();
+      if (otpVal.length < 6) {
+        showError(emailOtpInput, emailOtpError, 'Please enter the 6-digit code.');
+        return;
+      }
+
+      // Email OTP is bypassed/compromised — any 6-digit code is accepted
+      // (This allows you to verify that the email arrives in your inbox, but lets you type any 6 digits to pass instantly)
+
+      emailOtpSubmit.disabled = true;
+      emailOtpSubmit.textContent = 'Confirming...';
+
+      setTimeout(() => {
+        isEmailVerified = true;
+        emailOtpBlock.style.display = 'none';
+        emailVerifyTrigger.textContent = '✓ Verified';
+        emailVerifyTrigger.disabled = true;
+        emailVerifyTrigger.classList.add('verified');
+        emailInput.disabled = true; // Lock email field
+        clearError(emailInput, emailErr);
+      }, 1200);
+    });
+  }
+
+  // Password Strength evaluation rules
+  const rules = {
+    length: { el: document.getElementById('rule-length'), regex: /.{8,}/ },
+    uppercase: { el: document.getElementById('rule-uppercase'), regex: /[A-Z]/ },
+    lowercase: { el: document.getElementById('rule-lowercase'), regex: /[a-z]/ },
+    number: { el: document.getElementById('rule-number'), regex: /[0-9]/ },
+    special: { el: document.getElementById('rule-special'), regex: /[!@#$%^&*(),.?":{}|<>]/ }
+  };
+
+  passwordInput.addEventListener('input', () => {
+    const passwordVal = passwordInput.value;
+    let allMet = true;
+
+    // Check each password rule in real time
+    for (const key in rules) {
+      const rule = rules[key];
+      const met = rule.regex.test(passwordVal);
+      
+      if (met) {
+        rule.el.classList.add('met');
+      } else {
+        rule.el.classList.remove('met');
+        allMet = false;
+      }
+    }
+
+    isPasswordStrong = allMet;
+    if (isPasswordStrong && passwordInput.classList.contains('input-error')) {
+      clearError(passwordInput, passwordErr);
+    }
+  });
+
+  // Password Visibility Toggle
+  passwordToggle.addEventListener('click', () => {
+    const isPassword = passwordInput.getAttribute('type') === 'password';
+    passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+    
+    if (isPassword) {
+      eyeOffIcon.style.display = 'none';
+      eyeOnIcon.style.display = 'block';
+      passwordToggle.setAttribute('aria-label', 'Hide password');
+    } else {
+      eyeOffIcon.style.display = 'block';
+      eyeOnIcon.style.display = 'none';
+      passwordToggle.setAttribute('aria-label', 'Show password');
+    }
+  });
+
+  // Clear errors dynamically
+  [firstNameInput, lastNameInput, dobInput, emailInput, passwordInput].forEach(inp => {
+    inp.addEventListener('input', () => {
+      inp.classList.remove('input-error');
+      const errEl = document.getElementById(`${inp.id}-error`);
+      if (errEl) {
+        errEl.textContent = '';
+        errEl.style.opacity = '0';
+      }
+    });
+  });
+
+  termsCheckbox.addEventListener('change', () => {
+    if (termsCheckbox.checked) {
+      termsErr.textContent = '';
+      termsErr.style.opacity = '0';
+    }
+  });
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  detailsForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let isDetailsValid = true;
+
+    // First Name
+    if (!firstNameInput.value.trim()) {
+      showError(firstNameInput, firstNameErr, 'First name is required.');
+      isDetailsValid = false;
+    }
+
+    // Last Name
+    if (!lastNameInput.value.trim()) {
+      showError(lastNameInput, lastNameErr, 'Last name is required.');
+      isDetailsValid = false;
+    }
+
+    // DOB
+    if (!dobInput.value) {
+      showError(dobInput, dobErr, 'Please select your Date of Birth.');
+      isDetailsValid = false;
+    }
+
+    // Email verification check
+    if (!emailInput.value.trim()) {
+      showError(emailInput, emailErr, 'Email address is required.');
+      isDetailsValid = false;
+    } else if (!validateEmail(emailInput.value.trim())) {
+      showError(emailInput, emailErr, 'Please enter a valid email address.');
+      isDetailsValid = false;
+    } else if (!isEmailVerified) {
+      showError(emailInput, emailErr, 'Please click Verify to authenticate your email.');
+      isDetailsValid = false;
+    }
+
+    // Password strength check
+    if (!passwordInput.value) {
+      showError(passwordInput, passwordErr, 'Please set a secure password.');
+      isDetailsValid = false;
+    } else if (!isPasswordStrong) {
+      showError(passwordInput, passwordErr, 'Password does not meet the security rules below.');
+      isDetailsValid = false;
+    }
+
+    // Terms checkbox check
+    if (!termsCheckbox.checked) {
+      termsErr.textContent = 'You must accept the terms & conditions to sign up.';
+      termsErr.style.opacity = '1';
+      isDetailsValid = false;
+    }
+
+    if (isDetailsValid) {
+      const detailsSubmitBtn = document.getElementById('signup-submit-btn');
+      const submitSpan = detailsSubmitBtn.querySelector('span');
+      detailsSubmitBtn.disabled = true;
+      if (submitSpan) submitSpan.textContent = 'Creating Luxury Account...';
+
+      setTimeout(() => {
+        // Save the member info in localStorage
+        const userObj = {
+          name: `${firstNameInput.value.trim()} ${lastNameInput.value.trim()}`,
+          email: emailInput.value.trim(),
+          phone: verifiedPhoneNumber,
+          dob: dobInput.value,
+          role: 'customer'
+        };
+        localStorage.setItem('dtf_user', JSON.stringify(userObj));
+
+        if (submitSpan) submitSpan.textContent = 'Account Setup Complete!';
+
+        setTimeout(() => {
+          window.location.href = '../index.html';
+        }, 1200);
+      }, 1800);
+    }
+  });
+
+
+  // ============================================================
+  // ERROR HELPERS
+  // ============================================================
+  function showError(inputEl, errorEl, message) {
+    inputEl.classList.add('input-error');
+    errorEl.textContent = message;
+    errorEl.style.opacity = '1';
+  }
+
+  function clearError(inputEl, errorEl) {
+    inputEl.classList.remove('input-error');
+    errorEl.textContent = '';
+    errorEl.style.opacity = '0';
+  }
+
+});
