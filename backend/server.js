@@ -1,30 +1,47 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 import locationRouter from './modules/location/routes/location.routes.js';
 import addressRouter from './modules/address/routes/address.routes.js';
+import authRouter from './modules/auth/routes/auth.routes.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const JWT_SECRET = process.env.JWT_SECRET || 'devtech_fashion_secret_key';
 
 // Enable CORS for frontend requests
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:3001', 'http://127.0.0.1:3001', 'http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true
 }));
 
 // Parse application/json bodies
 app.use(express.json());
 
-// Mock authentication middleware using seeded customer user UUID
+// JWT Authentication middleware with fallback for backward compatibility
 app.use((req, res, next) => {
-  req.userId = 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12';
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.split(' ')[1];
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      req.userId = decoded.userId;
+    } catch (err) {
+      console.warn('JWT verify failed, falling back to mock user:', err.message);
+      req.userId = 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12';
+    }
+  } else {
+    // Default fallback to pre-seeded customer user UUID for backward compatibility
+    req.userId = 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12';
+  }
   next();
 });
 
 // Expose API routes
+app.use('/auth', authRouter);
 app.use('/location', locationRouter);
 app.use('/address', addressRouter);
 

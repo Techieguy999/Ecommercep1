@@ -28,12 +28,13 @@ CREATE TABLE IF NOT EXISTS role_permissions (
 
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    role_id UUID REFERENCES roles(id) ON DELETE RESTRICT,
+    role_id UUID REFERENCES roles(id) ON DELETE RESTRICT DEFAULT 'd3b07384-d113-4a3e-a5ae-be2416f46b31',
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     phone VARCHAR(30) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
+    date_of_birth DATE NULL,
     email_verified BOOLEAN DEFAULT FALSE,
     status VARCHAR(20) DEFAULT 'active', -- active, suspended, deleted
     last_login_at TIMESTAMP NULL,

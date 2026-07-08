@@ -522,23 +522,50 @@ document.addEventListener('DOMContentLoaded', () => {
       detailsSubmitBtn.disabled = true;
       if (submitSpan) submitSpan.textContent = 'Creating Luxury Account...';
 
-      setTimeout(() => {
-        // Save the member info in localStorage
+      const payload = {
+        firstName: firstNameInput.value.trim(),
+        lastName: lastNameInput.value.trim(),
+        email: emailInput.value.trim(),
+        phone: verifiedPhoneNumber,
+        dob: dobInput.value,
+        password: passwordInput.value
+      };
+
+      fetch('http://localhost:5000/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(async (response) => {
+        const json = await response.json();
+        if (!response.ok || !json.success) {
+          throw new Error(json.errors ? json.errors.join(' ') : 'Registration failed.');
+        }
+        return json.data;
+      })
+      .then((data) => {
+        // Save the token and user info in localStorage
         const userObj = {
           name: `${firstNameInput.value.trim()} ${lastNameInput.value.trim()}`,
           email: emailInput.value.trim(),
           phone: verifiedPhoneNumber,
           dob: dobInput.value,
-          role: 'customer'
+          role: 'customer',
+          token: data.token
         };
         localStorage.setItem('dtf_user', JSON.stringify(userObj));
 
         if (submitSpan) submitSpan.textContent = 'Account Setup Complete!';
-
         setTimeout(() => {
           window.location.href = '../index.html';
         }, 1200);
-      }, 1800);
+      })
+      .catch((error) => {
+        console.error('Registration failed:', error);
+        detailsSubmitBtn.disabled = false;
+        if (submitSpan) submitSpan.textContent = 'Sign Up';
+        alert(error.message || 'An error occurred during registration.');
+      });
     }
   });
 

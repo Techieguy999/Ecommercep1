@@ -111,33 +111,45 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = true;
       if (submitTextSpan) submitTextSpan.textContent = 'Verifying account...';
 
-      setTimeout(() => {
-        let userRole = 'customer';
-        let userName = 'Member User';
-
-        // Check if admin credentials
-        if (email === 'admin@devtech.com' && password === 'admin1234') {
-          userRole = 'admin';
-          userName = 'Admin (Vendor)';
+      fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(async (response) => {
+        const json = await response.json();
+        if (!response.ok || !json.success) {
+          throw new Error(json.errors ? json.errors.join(' ') : 'Login failed.');
         }
+        return json.data;
+      })
+      .then((data) => {
+        const userObj = {
+          email: data.user.email,
+          name: `${data.user.first_name} ${data.user.last_name}`,
+          role: data.user.role || 'customer',
+          token: data.token
+        };
 
         // Store user session in localStorage
-        localStorage.setItem('dtf_user', JSON.stringify({
-          email: email,
-          name: userName,
-          role: userRole
-        }));
+        localStorage.setItem('dtf_user', JSON.stringify(userObj));
 
         if (submitTextSpan) submitTextSpan.textContent = 'Success! Redirecting...';
 
         setTimeout(() => {
-          if (userRole === 'admin') {
+          if (userObj.role === 'admin') {
             window.location.href = 'admin-dashboard.html';
           } else {
             window.location.href = '../index.html';
           }
         }, 1000);
-      }, 1500);
+      })
+      .catch((error) => {
+        console.error('Login failed:', error);
+        submitBtn.disabled = false;
+        if (submitTextSpan) submitTextSpan.textContent = 'Sign In';
+        alert(error.message || 'Invalid email or password.');
+      });
     }
   });
 });
