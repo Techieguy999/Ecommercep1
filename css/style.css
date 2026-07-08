@@ -2641,3 +2641,54 @@ iframe {
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 
+/* ============================================================
+   LOCATION SUBBAR FLOATING LAYOUT & OFFSETS
+   ============================================================ */
+.location-subbar {
+  position: fixed;
+  top: calc(var(--nav-height) + var(--nav-top-offset) + 8px);
+  left: var(--nav-side-offset);
+  right: var(--nav-side-offset);
+  z-index: 999;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: saturate(180%) blur(28px);
+  -webkit-backdrop-filter: saturate(180%) blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: var(--radius-full);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05),
+              0 2px 8px rgba(0, 0, 0, 0.02),
+              inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  transition: all var(--dur-normal) var(--ease-smooth);
+}
+
+.location-subbar-container {
+  width: 100%;
+  padding: 0 var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Offset overrides to prevent overlapping content */
+.hero {
+  padding-top: calc(var(--nav-height) + var(--nav-top-offset) + 84px) !important;
+}
+.auth-main-container {
+  padding-top: calc(var(--nav-height) + var(--nav-top-offset) + 104px) !important;
+}
+
+/* Force navbar icon buttons to always be solid black for clear visibility */
+.nav-icon-btn {
+  color: #000000 !important;
+}
+
+/* Force hamburger menu lines to always be solid black for clear visibility */
+.ham-bar {
+  background: #000000 !important;
+}
+
+

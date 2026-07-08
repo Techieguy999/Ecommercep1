@@ -39,11 +39,7 @@
     ========================================= -->
     <header class="navbar nav-scrolled" id="navbar" role="banner">
       <nav class="nav-container" aria-label="Main Navigation">
-        <!-- Logo -->
-        <a href="../index.html" class="nav-logo" aria-label="DevTech Fashion Home">
-          <span class="logo-mark" aria-hidden="true">DT</span>
-          <span class="logo-text">DevTech <em>Fashion</em></span>
-        </a>
+        <!-- Logo Removed -->
 
         <!-- Desktop Links -->
         <ul class="nav-links" role="list">
@@ -74,14 +70,13 @@
           </a>
           <a href="login.html" class="btn btn-ghost active" id="login-btn">Login</a>
           <a href="signup.html" class="btn btn-primary" id="signup-btn">Sign Up</a>
+          <!-- Mobile Hamburger -->
+          <button class="hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="ham-bar"></span>
+            <span class="ham-bar"></span>
+            <span class="ham-bar"></span>
+          </button>
         </div>
-
-        <!-- Mobile Hamburger -->
-        <button class="hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false" aria-controls="mobile-menu">
-          <span class="ham-bar"></span>
-          <span class="ham-bar"></span>
-          <span class="ham-bar"></span>
-        </button>
       </nav>
 
       <!-- Mobile Menu -->
@@ -102,6 +97,13 @@
         </ul>
       </div>
     </header>
+
+    <!-- Delivery Location Sub-Bar (React Mount) -->
+    <div class="location-subbar">
+      <div class="location-subbar-container">
+        <div id="react-address-picker-root"></div>
+      </div>
+    </div>
 
     <!-- ========================================
          MAIN LOGIN SECTION
@@ -212,5 +214,35 @@
     <!-- Scripts -->
     <script src="../js/script.js"></script>
     <script src="../js/login.js"></script>
+
+    <!-- React Address Picker Dynamic Integration -->
+    <script type="module">
+      fetch('http://localhost:3000/src/main.tsx')
+        .then(() => {
+          const preamble = document.createElement('script');
+          preamble.type = 'module';
+          preamble.innerHTML = `
+            import RefreshRuntime from 'http://localhost:3000/@react-refresh'
+            RefreshRuntime.injectIntoGlobalHook(window)
+            window.$RefreshReg$ = () => {}
+            window.$RefreshSig$ = () => (type) => type
+            window.__vite_plugin_react_preamble_installed__ = true
+          `;
+          document.head.appendChild(preamble);
+
+          const client = document.createElement('script');
+          client.type = 'module';
+          client.src = 'http://localhost:3000/@vite/client';
+          document.body.appendChild(client);
+
+          const main = document.createElement('script');
+          main.type = 'module';
+          main.src = 'http://localhost:3000/src/main.tsx';
+          document.body.appendChild(main);
+        })
+        .catch(() => {
+          console.info('React Address Picker dev server not running.');
+        });
+    </script>
   </body>
 </html>

@@ -43,13 +43,20 @@
     display: none;
   }
 
-  .hamburger {
+  .nav-actions {
+    margin-left: auto;
+  }
+
+  .nav-actions .hamburger {
     display: flex;
+    order: 2;
+    margin-left: var(--space-1);
+    margin-right: var(--space-1);
   }
 
   .nav-actions .btn-ghost,
   .nav-actions .btn-primary {
-    display: none;
+    display: none !important;
   }
 
   /* Hero */
@@ -114,29 +121,23 @@
     padding: 0 var(--space-4);
   }
 
-  /* 1. Hamburger — far left */
-  .hamburger {
-    display: flex;
-    order: 1;
-    flex-shrink: 0;
-  }
-
-  /* 2. Logo — center (takes remaining space, centered with auto margins) */
+  /* 1. Logo — left side */
   .nav-logo {
-    order: 2;
+    order: 1;
     flex: 1;
-    justify-content: center;
+    justify-content: flex-start;
   }
-
-  /* 3. Nav links — hidden on mobile */
+  
+  /* 2. Nav links — hidden on mobile */
   .nav-links {
     display: none;
     order: 99;
   }
-
-  /* 4. Nav actions — far right */
+  
+  /* 3. Nav actions — right side */
   .nav-actions {
-    order: 3;
+    order: 2;
+    margin-left: auto;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -146,19 +147,22 @@
   /* Show wishlist + cart icons always on mobile */
   .nav-icon-btn {
     display: flex;
+    order: 1;
   }
 
-  /* Show Login button on mobile as compact ghost pill */
-  .nav-actions .btn-ghost {
-    display: inline-flex;
-    font-size: 0.8125rem;
-    padding: 0.45em 1em;
-    white-space: nowrap;
+  /* Show Hamburger in nav-actions */
+  .nav-actions .hamburger {
+    display: flex;
+    order: 2;
+    flex-shrink: 0;
+    margin-left: var(--space-1);
+    margin-right: var(--space-1);
   }
 
-  /* Hide Sign Up button — it's inside mobile menu */
+  /* Hide Login and Sign Up buttons — they're inside mobile menu */
+  .nav-actions .btn-ghost,
   .nav-actions .btn-primary {
-    display: none;
+    display: none !important;
   }
 
   /* Logo text size */
